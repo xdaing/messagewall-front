@@ -629,6 +629,11 @@ csstype@^2.6.8:
   resolved "https://mirrors.cloud.tencent.com/npm/csstype/-/csstype-2.6.21.tgz#2efb85b7cc55c80017c66a5ad7cbd931fda3a90e"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
 
+dayjs@^1.11.7:
+  version "1.11.7"
+  resolved "https://mirrors.cloud.tencent.com/npm/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
+  integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
+
 de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://mirrors.cloud.tencent.com/npm/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
@@ -1498,6 +1503,11 @@ loader-utils@^1.1.0:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
     json5 "^1.0.1"
+
+lottie-web@^5.10.1:
+  version "5.10.1"
+  resolved "https://mirrors.cloud.tencent.com/npm/lottie-web/-/lottie-web-5.10.1.tgz#fde8e6be374afc3906f78b4152ada9be44ce3ccf"
+  integrity sha512-u17bVNf/vA3oK9Wkyb1Vpo83WUIEQwaT0GeEN0qcvaExizyJ/RjmcbjSDj0CnwQCtpGqTgYhqprCC7cTWuXMNw==
 
 magic-string@^0.25.7:
   version "0.25.9"
