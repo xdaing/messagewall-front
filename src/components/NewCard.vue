@@ -61,18 +61,22 @@ const newMessageCard = async (name: string) => {
 const newPhotoCard = async (name: string) => {
     const formData = new FormData()
     if (imageFile.value?.files![0]) {
-        formData.append('visitorId', visitorStore.visitorId)
-        formData.append('file', imageFile.value.files![0])
-        formData.append('content', content.value)
-        formData.append('name', name)
-        formData.append('label', selectLabel.value.toString())
-        formData.append('avatar', visitorStore.avatarColor)
-        const response: MyResponse<Card> = await createPhoto<FormData, Card>(formData)
-        if (response.state === 200) {
-            emits('refresh', response.data)
-            emits('close')
-            notice.success('添加成功')
-        }
+        const file = imageFile.value.files[0]
+        if (file.size <= 2097152) {
+            formData.append('visitorId', visitorStore.visitorId)
+            formData.append('file', file)
+            formData.append('content', content.value)
+            formData.append('name', name)
+            formData.append('label', selectLabel.value.toString())
+            formData.append('avatar', visitorStore.avatarColor)
+            const response: MyResponse<Card> = await createPhoto<FormData, Card>(formData)
+            if (response.state === 200) {
+                emits('refresh', response.data)
+                emits('close')
+                notice.success('添加成功')
+            }
+        } else notice.warn('图片大于2MB')
+
     } else notice.warn('图片不能为空')
 }
 // 提交创建
