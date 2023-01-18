@@ -2,6 +2,9 @@
 
 一个留言墙项目的前端部分
 
+- [线上预览](http://message.gommie.cn/)
+- [后端地址](https://github.com/xdaing/messagewall-back-end)
+
 ## 技术栈
 
 vue3 + pinia + vue-router + axios + typescript + scss + vite
