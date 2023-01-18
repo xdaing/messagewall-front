@@ -30,32 +30,35 @@ const {
 
 </script>
 <template>
-    <Tabs :title="title" :slogan="slogan" :labels="labels" :currentLabel="currentLabel" @changeLabel="changeLabel">
-    </Tabs>
-    <div class="photos-container">
-        <div class="empty" v-if="cards.length === 0 && isLoading === false">
-            <SvgIcon name="photo" class="icon"></SvgIcon>
-            <p>还没有照片,快贴上第一张吧</p>
+    <div>
+        <Tabs :title="title" :slogan="slogan" :labels="labels" :currentLabel="currentLabel" @changeLabel="changeLabel">
+        </Tabs>
+        <div class="photos-container">
+            <div class="empty" v-if="cards.length === 0 && isLoading === false">
+                <SvgIcon name="photo" class="icon"></SvgIcon>
+                <p>还没有照片,快贴上第一张吧</p>
+            </div>
+            <div class="photos">
+                <PhotoCard :card="card" v-for="(card, index) in cards" class="photo" @click="changeSelectCard(index)">
+                </PhotoCard>
+            </div>
+            <div ref="animation" v-show="isLoading" class="loading"></div>
         </div>
-        <div class="photos">
-            <PhotoCard :card="card" v-for="(card, index) in cards" class="photo" @click="changeSelectCard(index)">
-            </PhotoCard>
-        </div>
-        <div ref="animation" v-show="isLoading" class="loading"></div>
+        <div v-if="isAll && cards.length !== 0" class="isAll">没有更多了...</div>
+        <transition name="image" :duration="500">
+            <ImgPreview v-if="selectCardIndex !== -1" :url="cards[selectCardIndex].image!">
+            </ImgPreview>
+        </transition>
+        <AddButton @click="showerDrawer = true" :position="buttonPosition"></AddButton>
+        <!-- 抽屉关闭的动画 -->
+        <transition name="drawer" :duration="500">
+            <Drawer v-if="showerDrawer" @close="closeDrawer" :title="selectCardIndex === -1 ? '留言' : '详情'">
+                <Detail :labels="labels" :card="cards[selectCardIndex]" v-if="selectCardIndex !== -1" type="photo">
+                </Detail>
+                <NewCard v-else :labels="labels" type="photo" @close="closeDrawer" @refresh="addCard"></NewCard>
+            </Drawer>
+        </transition>
     </div>
-    <div v-if="isAll && cards.length !== 0" class="isAll">没有更多了...</div>
-    <transition name="image" :duration="500">
-        <ImgPreview v-if="selectCardIndex !== -1" :url="cards[selectCardIndex].image!">
-        </ImgPreview>
-    </transition>
-    <AddButton @click="showerDrawer = true" :position="buttonPosition"></AddButton>
-    <!-- 抽屉关闭的动画 -->
-    <transition name="drawer" :duration="500">
-        <Drawer v-if="showerDrawer" @close="closeDrawer" :title="selectCardIndex === -1 ? '留言' : '详情'">
-            <Detail :labels="labels" :card="cards[selectCardIndex]" v-if="selectCardIndex !== -1" type="photo"></Detail>
-            <NewCard v-else :labels="labels" type="photo" @close="closeDrawer" @refresh="addCard"></NewCard>
-        </Drawer>
-    </transition>
 </template>
 <style scoped lang="scss">
 .photos-container {
@@ -82,10 +85,10 @@ const {
     }
 
     .photos {
-        padding-top: 28px;
+        padding-top: 20px;
         width: 88%;
         margin: 0 auto;
-        columns: 6;
+        columns: 5;
         column-gap: 3px;
 
         .photo {

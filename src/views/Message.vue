@@ -26,31 +26,33 @@ const {
 } = useCardHook('message')
 </script>
 <template>
-    <Tabs :title="title" :slogan="slogan" :labels="labels" :currentLabel="currentLabel" @changeLabel="changeLabel">
-    </Tabs>
-    <div class="messages">
-        <div class="empty" v-if="cards.length === 0 && isLoading === false">
-            <SvgIcon name="card" class="icon"></SvgIcon>
-            <p>还没有留言,快贴上第一张吧</p>
+    <div>
+        <Tabs :title="title" :slogan="slogan" :labels="labels" :currentLabel="currentLabel" @changeLabel="changeLabel">
+        </Tabs>
+        <div class="messages">
+            <div class="empty" v-if="cards.length === 0 && isLoading === false">
+                <SvgIcon name="card" class="icon"></SvgIcon>
+                <p>还没有留言,快贴上第一张吧</p>
+            </div>
+            <div class="message-grid">
+                <MessageCard :labels="labels" class="message" @selectCard="changeSelectCard(index)"
+                    v-for="(card, index) in cards" :key="card._id" :card="card">
+                </MessageCard>
+            </div>
+            <div ref="animation" v-show="isLoading" class="loading"></div>
         </div>
-        <div class="message-grid">
-            <MessageCard :labels="labels" class="message" @selectCard="changeSelectCard(index)"
-                v-for="(card, index) in cards" :key="card._id" :card="card">
-            </MessageCard>
-        </div>
-        <div ref="animation" v-show="isLoading" class="loading"></div>
+        <!-- 页面状态 -->
+        <div v-if="isAll && cards.length !== 0" class="isAll">没有更多了...</div>
+        <AddButton @click="showerDrawer = true" :position="buttonPosition"></AddButton>
+        <!-- 抽屉关闭的动画 -->
+        <Transition name="drawer" :duration="500">
+            <Drawer v-if="showerDrawer" @close="closeDrawer" :title="selectCardIndex === -1 ? '留言' : '详情'">
+                <Detail :labels="labels" v-if="selectCardIndex !== -1" :card="cards[selectCardIndex]" type="message">
+                </Detail>
+                <NewCard v-else :labels="labels" type="message" @close="closeDrawer" @refresh="addCard"></NewCard>
+            </Drawer>
+        </Transition>
     </div>
-    <!-- 页面状态 -->
-    <div v-if="isAll && cards.length !== 0" class="isAll">没有更多了...</div>
-    <AddButton @click="showerDrawer = true" :position="buttonPosition"></AddButton>
-    <!-- 抽屉关闭的动画 -->
-    <Transition name="drawer" :duration="500">
-        <Drawer v-if="showerDrawer" @close="closeDrawer" :title="selectCardIndex === -1 ? '留言' : '详情'">
-            <Detail :labels="labels" v-if="selectCardIndex !== -1" :card="cards[selectCardIndex]" type="message">
-            </Detail>
-            <NewCard v-else :labels="labels" type="message" @close="closeDrawer" @refresh="addCard"></NewCard>
-        </Drawer>
-    </Transition>
 </template>
 <style scoped lang="scss">
 .messages {
