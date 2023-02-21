@@ -3,11 +3,8 @@ import { likePhoto } from '@/api/photo'
 import { computed } from 'vue'
 import { useVisitorStore } from '@/stores/visitor'
 import { notice } from '@/components/Notice'
+import type { Card, MyResponse, LikeCard } from '@/types'
 
-interface LikeCard {
-    readonly _id: string
-    readonly visitorId: string
-}
 const visitorStore = useVisitorStore()
 export const useLikeCardHook = (type: 'message' | 'photo', card: Card) => {
     const loveColor = computed<string>(() => {
@@ -19,9 +16,9 @@ export const useLikeCardHook = (type: 'message' | 'photo', card: Card) => {
             visitorId: visitorStore.visitorId
         }
         let response: MyResponse<string>
-        if (type === 'message') response = await likeMessage<LikeCard, string>(likeCard)
-        else response = await likePhoto<LikeCard, string>(likeCard)
-        if (response.state === 200) {
+        if (type === 'message') response = await likeMessage(likeCard)
+        else response = await likePhoto(likeCard)
+        if (response.statusCode === 200) {
             notice.success(response.data)
             const index: number = card.liked.indexOf(visitorStore.visitorId)
             if (index !== -1) card.liked.splice(index, 1)

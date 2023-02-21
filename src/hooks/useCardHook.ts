@@ -3,6 +3,7 @@ import lottie from 'lottie-web'
 import { getMessage } from '@/api/message'
 import { getPhoto } from '@/api/photo'
 import loading from '@/assets/json/loading.json'
+import type { Card, QueryInfo, MyResponse } from '@/types'
 export const useCardHook = (type: 'message' | 'photo') => {
     // 留言或照片卡片
     const cards: Array<Card> = reactive([])
@@ -31,11 +32,10 @@ export const useCardHook = (type: 'message' | 'photo') => {
             label: currentLabel.value
         }
         let response: MyResponse<Array<Card>>
-        // <U, K, V = SuccessResponse<K>>
-        if (type === 'message') response = await getMessage<QueryInfo, Array<Card>>(queryInfo)
-        else response = await getPhoto<QueryInfo, Array<Card>>(queryInfo)
+        if (type === 'message') response = await getMessage(queryInfo)
+        else response = await getPhoto(queryInfo)
         // 请求成功
-        if (response.state === 200) {
+        if (response.statusCode === 200) {
             if (response.data.length === 0 || response.data.length < limit) isAll.value = true
             response.data.forEach((card: Card) => {
                 if (!cardIds.has(card._id)) {
@@ -80,16 +80,16 @@ export const useCardHook = (type: 'message' | 'photo') => {
         // 页面这整体高度
         const scrollHeight: number = document.documentElement.scrollHeight
         // 距离底部50且没有加载完、没有处于加载状态
-        if (scrollTop + clientHeight + 50 >= scrollHeight && !isAll.value && !isLoading.value) getCards()
+        if (scrollTop + clientHeight + 50 >= scrollHeight && !isAll.value && !isLoading.value) await getCards()
         // 使按钮处于安全位置
         if (scrollTop + clientHeight + 230 >= scrollHeight) {
             buttonPosition.value = scrollTop + clientHeight + 230 - scrollHeight
         } else buttonPosition.value = 30
     }
-    window.addEventListener('scroll', cardsAndPosition)
     onUpdated(cardsAndPosition)
     const animation = ref<HTMLDivElement | null>(null)
     onMounted(() => {
+        window.addEventListener('scroll', cardsAndPosition)
         lottie.loadAnimation({
             container: animation.value!,
             renderer: 'svg',

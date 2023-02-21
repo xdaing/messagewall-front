@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import SvgIcon from '../SvgIcon.vue'
 const props = defineProps<{ text: string, type: 'success' | 'warn' | 'error', index: number }>()
 const show = ref<boolean>(false)
-const position = computed<string>(() => {
-    return props.index * 45 + 60 + 'px'
-})
+const position = computed<string>(() => props.index * 45 + 60 + 'px')
+let timer: number
 onMounted(() => {
     show.value = true
-    setTimeout(() => show.value = false, 1500)
+    timer = setTimeout(() => show.value = false, 1500)
 })
+onBeforeUnmount(() => clearTimeout(timer))
 </script>
 <template>
     <transition name="notice">

@@ -7,6 +7,7 @@ import { notice } from '@/components/Notice'
 import { useVisitorStore } from '@/stores/visitor'
 import MessageCard from './MessageCard.vue'
 import Button from './Button.vue'
+import type { Card, NewComment, MyResponse, QueryInfo, Comment } from '@/types'
 
 const props = defineProps<{
     card: Card
@@ -41,9 +42,9 @@ const createComment = async () => {
             visitorId: visitorStore.visitorId
         }
         let response: MyResponse<Comment>
-        if (props.type === 'message') response = await createMessageComment<NewComment, Comment>(newComment)
-        else response = await createPhotoComment<NewComment, Comment>(newComment)
-        if (response.state === 200) {
+        if (props.type === 'message') response = await createMessageComment(newComment)
+        else response = await createPhotoComment(newComment)
+        if (response.statusCode === 200) {
             notice.success('评论成功')
             props.card.commentNumber++
             commentIds.add(response.data._id)
@@ -62,9 +63,9 @@ const getComments = async () => {
             currentPage: currentPage++,
         }
         let response: MyResponse<Array<Comment>>
-        if (props.type === 'message') response = await getMessageComment<QueryInfo, Array<Comment>>(queryInfo)
+        if (props.type === 'message') response = await getMessageComment(queryInfo)
         else response = await getPhotoComment(queryInfo)
-        if (response.state === 200) {
+        if (response.statusCode === 200) {
             if (response.data.length === 0 || response.data.length < limit) isAll.value = true
             response.data.forEach((comment: Comment) => {
                 if (!commentIds.has(comment._id)) {

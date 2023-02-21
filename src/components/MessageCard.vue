@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import dayjs from 'dayjs'
 import { useLikeCardHook } from '@/hooks/useLikeCardHook'
 import SvgIcon from './SvgIcon.vue'
-
+import type { Card } from '@/types'
 defineEmits<{ (e: 'selectCard', key: string): void }>()
 const props = defineProps<{ card: Card, labels: Array<string> }>()
 const { like, loveColor } = useLikeCardHook(props.card.color ? 'message' : 'photo', props.card)
@@ -13,7 +13,7 @@ const time = computed<string>(() => dayjs(props.card.time).format('MM/DD HH:mm')
     <div class="messageCard-container" :style="{ backgroundColor: card.color || 'rgba(212,212,212,0.30)' }">
         <div class="top">
             <p>{{ time }}</p>
-            <p>{{ labels[card.label]}}</p>
+            <p>{{ labels[card.label] }}</p>
         </div>
         <p class="content" @click="$emit('selectCard', card._id)">{{ card.content }}</p>
         <div class="bottom">
@@ -45,7 +45,7 @@ const time = computed<string>(() => dayjs(props.card.time).format('MM/DD HH:mm')
         p {
             font-size: 12px;
             color: $dark-3;
-            font-size: 400;
+            font-weight: 400;
         }
     }
 

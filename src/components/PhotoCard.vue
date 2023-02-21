@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useLikeCardHook } from '@/hooks/useLikeCardHook'
 import SvgIcon from './SvgIcon.vue'
-
+import type { Card } from '@/types'
 const props = defineProps<{ card: Card }>()
 const { like, loveColor } = useLikeCardHook('photo', props.card)
 const src = computed<string>(() => {

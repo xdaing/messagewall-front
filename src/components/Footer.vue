@@ -1,5 +1,10 @@
+<script setup lang="ts">
+import SvgIcon from './SvgIcon.vue'
+</script>
 <template>
-    <div class="footer"></div>
+    <div class="footer">
+
+    </div>
 </template>
 <style scoped lang="scss">
 .footer {
@@ -7,6 +12,9 @@
     width: 100%;
     height: 200px;
     background-color: $dark-1;
-    color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 </style>

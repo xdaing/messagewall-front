@@ -13,7 +13,7 @@ defineProps<{ position: number }>()
     width: 56px;
     height: 56px;
     background-color: $dark-1;
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
     border-radius: 28px;
     position: fixed;
     right: 30px;

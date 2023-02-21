@@ -106,8 +106,7 @@ const {
 }
 
 .loading {
-    margin: 0 auto;
     height: 200px;
-    margin-bottom: -60px;
+    margin: 0 auto -60px;
 }
 </style>

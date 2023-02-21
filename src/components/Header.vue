@@ -33,7 +33,7 @@ const visitorStore = useVisitorStore()
     width: 100%;
     height: 52px;
     background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
@@ -52,7 +52,7 @@ const visitorStore = useVisitorStore()
 
         .icon-logo {
             width: 30px;
-            width: 30px;
+            height: 30px;
         }
 
         .title {

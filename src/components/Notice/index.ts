@@ -1,4 +1,4 @@
-import { createVNode, render, ref, watch, reactive } from 'vue'
+import { createVNode, render } from 'vue'
 import Notice from './Notice.vue'
 let index: number = 0
 const useNotice = () => {

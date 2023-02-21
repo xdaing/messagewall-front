@@ -27,7 +27,7 @@ defineProps<{ title: string }>()
         z-index: $drawer-index;
         right: 0;
         background: rgba(255, 255, 255, 0.80);
-        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
         backdrop-filter: blur(20px);
         box-sizing: border-box;
         user-select: none;

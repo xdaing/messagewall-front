@@ -6,6 +6,7 @@ import { createMessage } from '@/api/message'
 import { notice } from '@/components/Notice'
 import Button from './Button.vue'
 import SvgIcon from './SvgIcon.vue'
+import type { MyResponse, Card, CreateCard } from '@/types'
 
 const props = defineProps<{
     labels: Array<string>,
@@ -50,8 +51,8 @@ const newMessageCard = async (name: string) => {
         label: selectLabel.value,
         color: colors[selectColor.value]
     }
-    const response: MyResponse<Card> = await createMessage<CreateCard, Card>(createCard)
-    if (response.state === 200) {
+    const response: MyResponse<Card> = await createMessage(createCard)
+    if (response.statusCode === 200) {
         emits('refresh', response.data)
         emits('close')
         notice.success('留言成功')
@@ -69,8 +70,8 @@ const newPhotoCard = async (name: string) => {
             formData.append('name', name)
             formData.append('label', selectLabel.value.toString())
             formData.append('avatar', visitorStore.avatarColor)
-            const response: MyResponse<Card> = await createPhoto<FormData, Card>(formData)
-            if (response.state === 200) {
+            const response: MyResponse<Card> = await createPhoto(formData)
+            if (response.statusCode === 200) {
                 emits('refresh', response.data)
                 emits('close')
                 notice.success('添加成功')
